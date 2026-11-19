@@ -10,17 +10,24 @@
 .layout{display:grid;grid-template-columns:minmax(310px,390px) 1fr;gap:24px;align-items:start}.panel,.preview-panel{background:white;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 28px #1632570b}.panel h2,.preview-panel h2{font-size:16px;margin:0 0 18px;color:var(--navy)}.field{margin:0 0 15px}.field label{display:block;font-size:13px;font-weight:650;margin-bottom:6px}.field input,.field select{width:100%;height:42px;border:1px solid #cbd5e1;border-radius:9px;padding:0 11px;font:inherit;background:white;color:var(--ink)}.field input:focus,.field select:focus{outline:3px solid #08794422;border-color:var(--green)}.help{font-size:12px;color:var(--muted);margin-top:5px}.filebox{border:1px dashed #aab8c8;padding:11px;border-radius:10px;background:#fafbfd}.filebox input{height:auto;border:0;padding:0;font-size:13px}.actions{display:flex;gap:10px;margin-top:20px}.btn{border:0;border-radius:10px;padding:12px 15px;font:700 14px system-ui;cursor:pointer}.primary{background:var(--navy);color:white;flex:1}.secondary{background:#edf2f7;color:var(--navy)}.primary:hover{background:#1a3f75}.secondary:hover{background:#e2eaf2}.tip{font-size:12px;line-height:1.5;color:var(--muted);margin:15px 0 0}
 .preview-panel{min-height:400px}.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.preview-head h2{margin:0}.size{font-size:12px;color:#46566a;background:#eff3f7;padding:6px 9px;border-radius:7px}.stage{min-height:300px;border-radius:13px;background:linear-gradient(45deg,#f0f3f7 25%,transparent 25%,transparent 75%,#f0f3f7 75%),linear-gradient(45deg,#f0f3f7 25%,white 25%,white 75%,#f0f3f7 75%);background-position:0 0,8px 8px;background-size:16px 16px;display:grid;place-items:center;padding:26px;overflow:auto}
 .badge{width:100mm;height:140mm;flex:none;background:white;position:relative;overflow:hidden;border-radius:2.5mm;box-shadow:0 5px 24px #12223b26;display:flex;flex-direction:column}.badge-head{height:55mm;flex:none;overflow:hidden;background:#fff}.emblem{display:block;width:100%;height:100%;object-fit:cover;object-position:center 26%}.badge-body{height:53mm;flex:none;display:flex;flex-direction:row;align-items:center;gap:3mm;padding:2.5mm 5mm;background:#fff}.photo{width:28mm;height:38mm;flex:none;object-fit:cover;border-radius:2mm;background:#eaf0f5;border:.35mm solid #e2e8ef;box-shadow:0 2px 5px #102b5618}.details{min-width:0;flex:1;height:100%;display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:1mm 0}.name{font-size:15pt;font-weight:850;color:var(--navy);line-height:1.08;overflow-wrap:anywhere;max-height:19mm;overflow:hidden}.category{margin-top:2mm;display:inline-flex;align-self:flex-start;padding:1.3mm 2.7mm;border-radius:1.2mm;background:#e7f3ec;color:var(--green);font-size:8pt;font-weight:850;text-transform:uppercase;letter-spacing:.3px}.country{margin-top:auto;display:flex;align-items:center;gap:1.8mm;color:#46566a;font-size:9pt;font-weight:800;text-transform:uppercase;letter-spacing:.35px;background:#f1f5f8;border-radius:1.5mm;padding:.6mm 1.8mm}.flag{font-size:45pt;line-height:1}.event-info{height:29mm;width:100%;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7mm;padding:1mm 3mm;background:#fff;color:var(--navy);text-align:center;text-transform:uppercase;font-weight:850;letter-spacing:.45px}.sponsors{height:14mm;width:100%;flex:none;object-fit:contain;padding:0 3mm}.event-date{font-size:8pt;line-height:1.15}.event-place{font-size:8pt;line-height:1.15}.footer{height:3mm;background:linear-gradient(90deg,var(--green) 0 55%,var(--gold) 55% 72%,var(--navy) 72%);flex:none}.preview-note{font-size:12px;color:var(--muted);margin:14px 0 0;text-align:center}
+.tab-nav{display:flex;gap:8px;margin:0 0 20px}.tab-button{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:10px;padding:10px 18px;font:700 14px system-ui;cursor:pointer}.tab-button.active{background:var(--navy);color:#fff}.tab-view{display:none}.tab-view.active{display:block}
+.certificate-layout{display:grid;grid-template-columns:minmax(310px,390px) 1fr;gap:24px;align-items:start}.certificate-stage{min-height:350px;display:grid;place-items:center;padding:20px;background:#f4f6f9;border-radius:13px;overflow:auto}.certificate-paper{position:relative;width:100%;max-width:900px;aspect-ratio:1.414;background:#fff;border:1px solid var(--line);box-shadow:0 5px 24px #12223b26;display:grid;place-items:center;overflow:hidden}.certificate-canvas{display:block;width:100%;height:100%}.certificate-empty{position:absolute;inset:0;display:grid;place-items:center;padding:20px;color:var(--muted);text-align:center;font-size:14px}.certificate-empty[hidden]{display:none}.certificate-status{font-size:12px;color:var(--muted);margin-top:8px;min-height:18px}
+
 @page{size:100mm 140mm;margin:0}
 @media print{html,body{width:100mm!important;height:140mm!important;margin:0!important;padding:0!important;background:white!important}.app{display:none!important}#printRoot{display:block!important}.badge{width:100mm;height:140mm;border-radius:0;box-shadow:none;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
 #printRoot{display:none}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.app{padding:22px 14px}.stage{min-height:250px;padding:18px}.preview-panel{padding:16px}}
+@media(max-width:800px){.layout,.certificate-layout{grid-template-columns:1fr}.app{padding:22px 14px}.stage{min-height:250px;padding:18px}.preview-panel{padding:16px}}
 @media(max-width:500px){.stage{padding:10px 0;overflow:hidden}.stage #badgePreview{transform:scale(.76);transform-origin:top center;margin-bottom:-33.6mm}}
 </style>
 </head>
 <body>
 <main class="app">
 <header class="top"><div class="mark" aria-hidden="true"><img src="emblema-campeonato.png" alt=""></div><div><h1>Gerador de crachás</h1><p>Campeonato Sul-Americano de Badminton para Surdos · Belo Horizonte 2026</p></div></header>
-<div class="layout">
+<nav class="tab-nav" role="tablist" aria-label="Seções do gerador">
+<button class="tab-button active" id="tabBadges" type="button" role="tab" aria-controls="badgeTab" aria-selected="true" data-tab="badgeTab">Crachás</button>
+<button class="tab-button" id="tabCertificate" type="button" role="tab" aria-controls="certificateTab" aria-selected="false" data-tab="certificateTab">Certificado</button>
+</nav>
+<section id="badgeTab" class="tab-view active" role="tabpanel" aria-labelledby="tabBadges"><div class="layout">
 <section class="panel" aria-labelledby="form-title"><h2 id="form-title">Dados do participante</h2>
 <div class="field"><label for="personName">Nome completo</label><input id="personName" maxlength="48" placeholder="Ex.: Maria da Silva" autocomplete="name"></div>
 <div class="field"><label for="personPhoto">Foto 3×4</label><div class="filebox"><input id="personPhoto" type="file" accept="image/*"></div><div class="help">Escolha uma foto vertical. Ela será ajustada ao espaço do crachá.</div></div>
@@ -30,15 +37,154 @@
 <p class="tip">Na janela de impressão, escolha “Salvar como PDF”, papel personalizado 10 × 14 cm (o tamanho já é enviado pelo arquivo), margens “Nenhuma” e escala 100%. Ative os gráficos de fundo.</p>
 </section>
 <section class="preview-panel"><div class="preview-head"><h2>Pré-visualização</h2><span class="size">10 × 14 cm</span></div><div class="stage"><article class="badge" id="badgePreview" aria-label="Prévia do crachá"><div class="badge-head"><img class="emblem" src="emblema-campeonato.png" alt="Emblema do Campeonato Sul-Americano de Badminton para Surdos"></div><div class="badge-body"><img class="photo" id="photoPreview" alt="Foto do participante"><div class="details"><div class="name" id="namePreview">Nome do participante</div><div class="category" id="categoryPreview">Atleta</div><div class="country"><span class="flag" id="flagPreview">🇧🇷</span><span id="countryPreview">Brasil</span></div></div></div><div class="event-info"><div class="event-date">26 A 29 DE NOVEMBRO DE 2026</div><div class="event-place">BELO HORIZONTE / MG</div><img class="sponsors" src="logos-realizacao-organizacao-apoio.png" alt="Realização, organização e apoio"></div><div class="footer"></div></article></div><p class="preview-note">A prévia mantém a proporção física do crachá (10 × 14 cm).</p></section>
-</div></main>
+</div></section>
+<section id="certificateTab" class="tab-view" role="tabpanel" aria-labelledby="tabCertificate">
+<div class="certificate-layout">
+<section class="panel" aria-labelledby="certificate-form-title">
+<h2 id="certificate-form-title">Dados do certificado</h2>
+<div class="field"><label for="certificateTemplate">Modelo do certificado (PDF, JPG ou PNG)</label><div class="filebox"><input id="certificateTemplate" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"></div><div class="help">Envie o fundo do certificado. Em arquivos PDF, será usada a primeira página.</div><div class="certificate-status" id="certificateStatus" aria-live="polite"></div></div>
+<div class="field"><label for="certificateName">Nome</label><input id="certificateName" maxlength="100" placeholder="Nome completo"></div>
+<div class="field"><label for="certificateCountry">País</label><select id="certificateCountry"><option value="Brasil">Brasil</option><option value="Ecuador">Equador</option><option value="Perú">Peru</option><option value="Paraguay">Paraguai</option></select></div>
+<div class="actions"><button class="btn primary" id="downloadCertificate" type="button" disabled>Baixar certificado em PDF</button></div>
+<p class="tip">O modelo fica como fundo e os dados são inseridos no certificado. O arquivo PDF será baixado neste dispositivo.</p>
+</section>
+<section class="preview-panel">
+<div class="preview-head"><h2>Pré-visualização</h2><span class="size">Certificado</span></div>
+<div class="certificate-stage"><div class="certificate-paper" id="certificatePaper"><canvas id="certificateCanvas" class="certificate-canvas" hidden></canvas><div class="certificate-empty" id="certificateEmpty">Envie um modelo em PDF, JPG ou PNG para visualizar o certificado.</div></div></div>
+</section>
+</div>
+</section>
+</main>
 <div id="printRoot"><article class="badge"><div class="badge-head"><img class="emblem" src="emblema-campeonato.png" alt=""></div><div class="badge-body"><img class="photo" id="photoPrint" alt=""><div class="details"><div class="name" id="namePrint"></div><div class="category" id="categoryPrint"></div><div class="country"><span class="flag" id="flagPrint"></span><span id="countryPrint"></span></div></div></div><div class="event-info"><div class="event-date">26 A 29 DE NOVEMBRO DE 2026</div><div class="event-place">BELO HORIZONTE / MG</div><img class="sponsors" src="logos-realizacao-organizacao-apoio.png" alt="Realização, organização e apoio"></div><div class="footer"></div></article></div>
-<script>
+<script src="https://unpkg.com/jspdf@4.2.1/dist/jspdf.umd.min.js"></script>
+<script type="module">
+import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.min.mjs";
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.worker.min.mjs";
 const $=id=>document.getElementById(id);let photoUrl='';const emptyPhoto='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="320" height="420" viewBox="0 0 320 420"%3E%3Crect width="320" height="420" fill="%23eaf0f5"/%3E%3Ccircle cx="160" cy="135" r="60" fill="%23b7c4d1"/%3E%3Cpath d="M45 390c12-92 58-138 115-138s103 46 115 138" fill="%23b7c4d1"/%3E%3C/svg%3E';
 const countries={br:{name:'Brasil',flag:'🇧🇷'},ec:{name:'Equador',flag:'🇪🇨'},pe:{name:'Peru',flag:'🇵🇪'},py:{name:'Paraguai',flag:'🇵🇾'}};
 function update(){const name=$('personName').value.trim()||'Nome do participante',cat=$('category').value,c=countries[$('country').value];$('namePreview').textContent=name;$('categoryPreview').textContent=cat;$('countryPreview').textContent=c.name;$('flagPreview').textContent=c.flag;$('photoPreview').src=photoUrl||emptyPhoto;$('namePrint').textContent=name;$('categoryPrint').textContent=cat;$('countryPrint').textContent=c.name;$('flagPrint').textContent=c.flag;$('photoPrint').src=photoUrl||emptyPhoto;}
 $('personName').addEventListener('input',update);$('category').addEventListener('change',update);$('country').addEventListener('change',update);
 $('personPhoto').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith('image/'))return; if(photoUrl)URL.revokeObjectURL(photoUrl);photoUrl=URL.createObjectURL(f);update()});
 $('printButton').addEventListener('click',()=>{update();window.print()});$('clearButton').addEventListener('click',()=>{$('personName').value='';$('category').selectedIndex=0;$('country').value='br';$('personPhoto').value='';if(photoUrl)URL.revokeObjectURL(photoUrl);photoUrl='';update()});
+
+document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
+  document.querySelectorAll('[data-tab]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',active?'true':'false')});
+  document.querySelectorAll('.tab-view').forEach(view=>view.classList.toggle('active',view.id===button.dataset.tab));
+}));
+
+const certificateCanvas=$('certificateCanvas');
+const certificateContext=certificateCanvas.getContext('2d');
+const certificateInput=$('certificateTemplate');
+const certificateStatus=$('certificateStatus');
+const certificateDownload=$('downloadCertificate');
+let certificateBase=null;
+let certificatePageMm=null;
+
+function drawFitText(context,text,x,y,maxWidth,fontSize,bold){
+  let size=fontSize;
+  context.font=(bold?'700 ':'')+size+'px Georgia, "Times New Roman", serif';
+  while(context.measureText(text).width>maxWidth&&size>12){size-=1;context.font=(bold?'700 ':'')+size+'px Georgia, "Times New Roman", serif'}
+  context.textAlign='center';context.fillText(text,x,y);
+}
+function drawRichParagraph(context,segments,maxWidth,centerX,startY,fontSize,lineHeight){
+  const words=[];
+  segments.forEach(segment=>segment.text.trim().split(/\s+/).filter(Boolean).forEach(word=>words.push({text:word,bold:!!segment.bold})));
+  const lines=[];let line=[];let lineWidth=0;const space=context.measureText(' ').width;
+  words.forEach(word=>{
+    context.font=(word.bold?'700 ':'')+fontSize+'px Georgia, "Times New Roman", serif';
+    const width=context.measureText(word.text).width;
+    if(line.length&&lineWidth+space+width>maxWidth){lines.push(line);line=[];lineWidth=0}
+    if(line.length)lineWidth+=space;
+    line.push({...word,width});lineWidth+=width;
+  });
+  if(line.length)lines.push(line);
+  context.textAlign='left';
+  lines.forEach((lineWords,lineIndex)=>{
+    const total=lineWords.reduce((sum,word)=>sum+word.width,0)+space*Math.max(0,lineWords.length-1);
+    let x=centerX-total/2;const y=startY+lineIndex*lineHeight;
+    lineWords.forEach(word=>{context.font=(word.bold?'700 ':'')+fontSize+'px Georgia, "Times New Roman", serif';context.fillText(word.text,x,y);x+=word.width+space});
+  });
+  return startY+lines.length*lineHeight;
+}
+function drawCertificate(){
+  if(!certificateBase)return;
+  const context=certificateContext,w=certificateCanvas.width,h=certificateCanvas.height,cx=w/2;
+  context.clearRect(0,0,w,h);context.drawImage(certificateBase,0,0,w,h);
+  context.fillStyle='#102b56';context.textBaseline='middle';
+  drawFitText(context,'CERTIFICADO',cx,h*.16,w*.82,h*.052,true);
+  drawFitText(context,'Se otorga el presente certificado a',cx,h*.275,w*.84,h*.026,false);
+  const name=$('certificateName').value.trim()||'<<NOME>>';
+  drawFitText(context,name,cx,h*.365,w*.84,h*.044,true);
+  const country=$('certificateCountry').value;
+  const paragraphStart=h*.465;
+  drawRichParagraph(context,[
+    {text:'en calidad de representante de'},
+    {text:country,bold:true},
+    {text:'por su valiosa participación en el evento «Campeonato Sudamericano de Bádminton para Sordos 2026», celebrado del 26 al 29 de noviembre de 2026 en la ciudad de Belo Horizonte, estado de Minas Gerais (Brasil).'}
+  ],w*.84,cx,paragraphStart,h*.021,h*.029);
+  drawFitText(context,'Belo Horizonte (Brasil), 29 de noviembre de 2026',cx,h*.68,w*.86,h*.022,false);
+  const sigY=h*.835;
+  const sigFont=Math.min(h*.018,w*.026);
+  const roleFont=Math.min(h*.015,w*.022);
+  drawFitText(context,'Rodrigo Rocha Malta',w*.28,sigY,w*.42,sigFont,true);
+  drawFitText(context,'Presidente de CONSUDES',w*.28,sigY+h*.035,w*.42,roleFont,false);
+  drawFitText(context,'Diana Sazano de Souza Kyosen',w*.72,sigY,w*.45,sigFont,true);
+  drawFitText(context,'Presidenta de CBDS',w*.72,sigY+h*.035,w*.45,roleFont,false);
+}
+function setCertificateBase(width,height,pageWidthMm,pageHeightMm){
+  certificateBase=document.createElement('canvas');
+  certificateBase.width=width;certificateBase.height=height;
+  certificatePageMm={width:pageWidthMm,height:pageHeightMm};
+  certificateCanvas.width=width;certificateCanvas.height=height;
+  certificateCanvas.hidden=false;$('certificateEmpty').hidden=true;
+  $('certificatePaper').style.aspectRatio=width+' / '+height;
+  certificateDownload.disabled=false;
+  drawCertificate();
+}
+certificateInput.addEventListener('change',async event=>{
+  const file=event.target.files&&event.target.files[0];if(!file)return;
+  certificateStatus.textContent='Carregando modelo…';certificateDownload.disabled=true;certificateBase=null;
+  try{
+    if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
+      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+      const page=await pdf.getPage(1);const baseViewport=page.getViewport({scale:1});
+      const scale=Math.min(2.5,2400/baseViewport.width,2400/baseViewport.height);
+      const viewport=page.getViewport({scale});
+      const base=document.createElement('canvas');base.width=Math.ceil(viewport.width);base.height=Math.ceil(viewport.height);
+      await page.render({canvasContext:base.getContext('2d'),viewport}).promise;
+      setCertificateBase(base.width,base.height,baseViewport.width*25.4/72,baseViewport.height*25.4/72);
+      certificateBase.getContext('2d').drawImage(base,0,0);
+      drawCertificate();certificateStatus.textContent='Modelo PDF carregado. A primeira página será usada.';
+    }else if(file.type==='image/jpeg'||file.type==='image/png'||/\.(jpe?g|png)$/i.test(file.name)){
+      const bitmap=await createImageBitmap(file);
+      const maxSide=3000,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));
+      const width=Math.max(1,Math.round(bitmap.width*scale)),height=Math.max(1,Math.round(bitmap.height*scale));
+      setCertificateBase(width,height,297*width/Math.max(width,height),297*height/Math.max(width,height));
+      certificateBase.getContext('2d').drawImage(bitmap,0,0,width,height);bitmap.close();drawCertificate();
+      certificateStatus.textContent='Modelo de imagem carregado.';
+    }else{
+      throw new Error('Formato não reconhecido. Use PDF, JPG ou PNG.');
+    }
+  }catch(error){
+    certificateBase=null;certificateCanvas.hidden=true;$('certificateEmpty').hidden=false;
+    certificateEmptyText('Não foi possível abrir o modelo. Confira o arquivo e tente novamente.');
+    certificateStatus.textContent=error.message||'Falha ao carregar o modelo.';
+  }
+});
+function certificateEmptyText(message){$('certificateEmpty').textContent=message}
+$('certificateName').addEventListener('input',drawCertificate);
+$('certificateCountry').addEventListener('change',drawCertificate);
+certificateDownload.addEventListener('click',()=>{
+  if(!certificateBase||!certificatePageMm)return;
+  if(!window.jspdf||!window.jspdf.jsPDF){certificateStatus.textContent='Não foi possível carregar o gerador de PDF. Recarregue a página e tente novamente.';return}
+  drawCertificate();
+  const pageWidth=certificatePageMm.width,pageHeight=certificatePageMm.height;
+  const pdf=new window.jspdf.jsPDF({orientation:pageWidth>=pageHeight?'landscape':'portrait',unit:'mm',format:[pageWidth,pageHeight],compress:true});
+  pdf.addImage(certificateCanvas.toDataURL('image/jpeg',.97),'JPEG',0,0,pageWidth,pageHeight);
+  const rawName=$('certificateName').value.trim()||'participante';
+  const slug=rawName.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'participante';
+  pdf.save('certificado-'+slug+'.pdf');
+});
 update();
 </script>
 </body></html>
