@@ -50,19 +50,12 @@
 </section>
 <section class="preview-panel">
 <div class="preview-head"><h2>Pré-visualização</h2><span class="size">Certificado</span></div>
-<div class="certificate-stage"><div class="certificate-paper" id="certificatePaper"><canvas id="certificateCanvas" class="certificate-canvas" hidden></canvas><div class="certificate-empty" id="certificateEmpty">Envie um modelo em PDF, JPG ou PNG para visualizar o certificado.</div></div></div>
+<div class="certificate-stage"><div class="certificate-paper" id="certificatePaper"><canvas id="certificateCanvas" class="certificate-canvas" hidden></canvas><div class="certificate-empty" id="certificateEmpty">Carregando o certificado…</div></div></div>
 </section>
 </div>
 </section>
 </main>
 <div id="printRoot"><article class="badge"><div class="badge-head"><img class="emblem" src="emblema-campeonato.png" alt=""></div><div class="badge-body"><img class="photo" id="photoPrint" alt=""><div class="details"><div class="name" id="namePrint"></div><div class="category" id="categoryPrint"></div><div class="country"><span class="flag" id="flagPrint"></span><span id="countryPrint"></span></div></div></div><div class="event-info"><div class="event-date">26 A 29 DE NOVEMBRO DE 2026</div><div class="event-place">BELO HORIZONTE / MG</div><img class="sponsors" src="logos-realizacao-organizacao-apoio.png" alt="Realização, organização e apoio"></div><div class="footer"></div></article></div>
-<script src="https://unpkg.com/jspdf@4.2.1/dist/jspdf.umd.min.js"></script>
-<script type="module">
-window.pdfjsReady=import("https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.min.mjs").then(library=>{
-  library.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.worker.min.mjs";
-  window.pdfjsLib=library;return library;
-}).catch(error=>{window.pdfjsError=error;return null});
-</script>
 <script>
 const $=id=>document.getElementById(id);let photoUrl='';const emptyPhoto='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="320" height="420" viewBox="0 0 320 420"%3E%3Crect width="320" height="420" fill="%23eaf0f5"/%3E%3Ccircle cx="160" cy="135" r="60" fill="%23b7c4d1"/%3E%3Cpath d="M45 390c12-92 58-138 115-138s103 46 115 138" fill="%23b7c4d1"/%3E%3C/svg%3E';
 const countries={br:{name:'Brasil',flag:'🇧🇷'},ec:{name:'Equador',flag:'🇪🇨'},pe:{name:'Peru',flag:'🇵🇪'},py:{name:'Paraguai',flag:'🇵🇾'}};
@@ -82,6 +75,7 @@ const certificateStatus=$('certificateStatus');
 const certificateDownload=$('downloadCertificate');
 let certificateBase=null;
 let certificatePageMm=null;
+let certificateSignatures=null;
 
 function drawFitText(context,text,x,y,maxWidth,fontSize,bold){
   let size=fontSize;
@@ -129,11 +123,16 @@ function drawCertificate(){
   const sigY=h*.835;
   const sigFont=Math.min(h*.018,w*.026);
   const roleFont=Math.min(h*.015,w*.022);
+  if(certificateSignatures){
+    drawImageContain(context,certificateSignatures.rodrigo,w*.13,h*.735,w*.30,h*.075);
+    drawImageContain(context,certificateSignatures.diana,w*.57,h*.735,w*.30,h*.075);
+  }
   drawFitText(context,'Rodrigo Rocha Malta',w*.28,sigY,w*.42,sigFont,true);
   drawFitText(context,'Presidente de CONSUDES',w*.28,sigY+h*.035,w*.42,roleFont,false);
   drawFitText(context,'Diana Sazano de Souza Kyosen',w*.72,sigY,w*.45,sigFont,true);
   drawFitText(context,'Presidenta de CBDS',w*.72,sigY+h*.035,w*.45,roleFont,false);
 }
+function drawImageContain(context,image,x,y,maxWidth,maxHeight){const scale=Math.min(maxWidth/image.naturalWidth,maxHeight/image.naturalHeight);const width=image.naturalWidth*scale,height=image.naturalHeight*scale;context.drawImage(image,x+(maxWidth-width)/2,y+(maxHeight-height)/2,width,height)}
 function setCertificateBase(width,height,pageWidthMm,pageHeightMm){
   certificateBase=document.createElement('canvas');
   certificateBase.width=width;certificateBase.height=height;
@@ -147,37 +146,55 @@ function setCertificateBase(width,height,pageWidthMm,pageHeightMm){
 async function loadFixedCertificate(){
   certificateStatus.textContent='Carregando o modelo fixo…';certificateDownload.disabled=true;certificateBase=null;
   try{
-    const pdfjsLib=window.pdfjsLib||await window.pdfjsReady;
-    if(!pdfjsLib)throw new Error('A visualização do PDF não carregou. Recarregue a página e tente novamente.');
-    const pdf=await pdfjsLib.getDocument('modelo-certificado.pdf').promise;
-    const page=await pdf.getPage(1);const baseViewport=page.getViewport({scale:1});
-    const scale=Math.min(2.5,2400/baseViewport.width,2400/baseViewport.height);
-    const viewport=page.getViewport({scale});
-    const base=document.createElement('canvas');base.width=Math.ceil(viewport.width);base.height=Math.ceil(viewport.height);
-    await page.render({canvasContext:base.getContext('2d'),viewport}).promise;
-    setCertificateBase(base.width,base.height,baseViewport.width*25.4/72,baseViewport.height*25.4/72);
-    certificateBase.getContext('2d').drawImage(base,0,0);drawCertificate();
+    const [background,rodrigo,diana]=await Promise.all([
+      loadCertificateImage('modelo-certificado.png'),
+      loadCertificateImage('Assinatura%20Rodrigo.png'),
+      loadCertificateImage('Assinatura%20Diana.png')
+    ]);
+    certificateSignatures={rodrigo,diana};
+    setCertificateBase(background.naturalWidth,background.naturalHeight,297,210);
+    certificateBase.getContext('2d').drawImage(background,0,0);drawCertificate();
     certificateStatus.textContent='Modelo carregado.';
   }catch(error){
     certificateBase=null;certificateCanvas.hidden=true;$('certificateEmpty').hidden=false;
-    certificateEmptyText('O modelo fixo não pôde ser carregado. Confira se o PDF está publicado no GitHub.');
+    certificateEmptyText('Não foi possível carregar o modelo ou as assinaturas. Atualize a página e tente novamente.');
     certificateStatus.textContent=error.message||'Falha ao carregar o modelo.';
   }
 }
+function loadCertificateImage(src){return new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Não foi possível carregar '+decodeURIComponent(src)));image.src=src})}
 loadFixedCertificate();
 function certificateEmptyText(message){$('certificateEmpty').textContent=message}
 $('certificateName').addEventListener('input',drawCertificate);
 $('certificateCountry').addEventListener('change',drawCertificate);
 certificateDownload.addEventListener('click',()=>{
   if(!certificateBase||!certificatePageMm)return;
-  if(!window.jspdf||!window.jspdf.jsPDF){certificateStatus.textContent='Não foi possível carregar o gerador de PDF. Recarregue a página e tente novamente.';return}
   drawCertificate();
-  const pageWidth=certificatePageMm.width,pageHeight=certificatePageMm.height;
-  const pdf=new window.jspdf.jsPDF({orientation:pageWidth>=pageHeight?'landscape':'portrait',unit:'mm',format:[pageWidth,pageHeight],compress:true});
-  pdf.addImage(certificateCanvas.toDataURL('image/jpeg',.97),'JPEG',0,0,pageWidth,pageHeight);
+  const pageWidth=certificatePageMm.width*72/25.4,pageHeight=certificatePageMm.height*72/25.4;
+  const data=atob(certificateCanvas.toDataURL('image/jpeg',.97).split(',')[1]);
+  const jpeg=new Uint8Array(data.length);for(let i=0;i<data.length;i++)jpeg[i]=data.charCodeAt(i);
+  const stream='q\n'+pageWidth.toFixed(2)+' 0 0 '+pageHeight.toFixed(2)+' 0 0 cm\n/Im0 Do\nQ\n';
+  const encoder=new TextEncoder();const objects=[
+    encoder.encode('<< /Type /Catalog /Pages 2 0 R >>'),
+    encoder.encode('<< /Type /Pages /Kids [3 0 R] /Count 1 >>'),
+    encoder.encode('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pageWidth.toFixed(2)+' '+pageHeight.toFixed(2)+'] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>'),
+    null,
+    encoder.encode('<< /Length '+encoder.encode(stream).length+' >>\nstream\n'+stream+'endstream')
+  ];
+  const jpegHeader=encoder.encode('<< /Type /XObject /Subtype /Image /Width '+certificateCanvas.width+' /Height '+certificateCanvas.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpeg.length+' >>\nstream\n');
+  const jpegFooter=encoder.encode('\nendstream');
+  const chunks=[encoder.encode('%PDF-1.4\n%âãÏÓ\n')];const offsets=[0];let byteLength=chunks[0].length;
+  for(let index=0;index<5;index++){
+    offsets.push(byteLength);const objectHeader=encoder.encode((index+1)+' 0 obj\n');chunks.push(objectHeader);byteLength+=objectHeader.length;
+    const body=index===3?[jpegHeader,jpeg,jpegFooter]:[objects[index]];
+    for(const chunk of body){chunks.push(chunk);byteLength+=chunk.length}
+    const tail=encoder.encode('\nendobj\n');chunks.push(tail);byteLength+=tail.length;
+  }
+  const xrefOffset=byteLength;let xref='xref\n0 6\n0000000000 65535 f \n';
+  for(let i=1;i<=5;i++)xref+=String(offsets[i]).padStart(10,'0')+' 00000 n \n';
+  xref+='trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xrefOffset+'\n%%EOF';chunks.push(encoder.encode(xref));
   const rawName=$('certificateName').value.trim()||'participante';
   const slug=rawName.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'participante';
-  pdf.save('certificado-'+slug+'.pdf');
+  const url=URL.createObjectURL(new Blob(chunks,{type:'application/pdf'}));const link=document.createElement('a');link.href=url;link.download='certificado-'+slug+'.pdf';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 update();
 </script>
