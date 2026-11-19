@@ -42,7 +42,7 @@
 <div class="certificate-layout">
 <section class="panel" aria-labelledby="certificate-form-title">
 <h2 id="certificate-form-title">Dados do certificado</h2>
-<div class="field"><label for="certificateTemplate">Modelo do certificado (PDF, JPG ou PNG)</label><div class="filebox"><input id="certificateTemplate" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"></div><div class="help">Envie o fundo do certificado. Em arquivos PDF, será usada a primeira página.</div><div class="certificate-status" id="certificateStatus" aria-live="polite"></div></div>
+<div class="field"><label>Modelo do certificado</label><div class="filebox"><strong>Modelo Certificado.pdf</strong><br>PDF A4 em orientação paisagem</div><div class="help">Modelo fixo carregado pelo sistema.</div><div class="certificate-status" id="certificateStatus" aria-live="polite"></div></div>
 <div class="field"><label for="certificateName">Nome</label><input id="certificateName" maxlength="100" placeholder="Nome completo"></div>
 <div class="field"><label for="certificateCountry">País</label><select id="certificateCountry"><option value="Brasil">Brasil</option><option value="Ecuador">Equador</option><option value="Perú">Peru</option><option value="Paraguay">Paraguai</option></select></div>
 <div class="actions"><button class="btn primary" id="downloadCertificate" type="button" disabled>Baixar certificado em PDF</button></div>
@@ -78,7 +78,6 @@ document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener(
 
 const certificateCanvas=$('certificateCanvas');
 const certificateContext=certificateCanvas.getContext('2d');
-const certificateInput=$('certificateTemplate');
 const certificateStatus=$('certificateStatus');
 const certificateDownload=$('downloadCertificate');
 let certificateBase=null;
@@ -145,38 +144,27 @@ function setCertificateBase(width,height,pageWidthMm,pageHeightMm){
   certificateDownload.disabled=false;
   drawCertificate();
 }
-certificateInput.addEventListener('change',async event=>{
-  const file=event.target.files&&event.target.files[0];if(!file)return;
-  certificateStatus.textContent='Carregando modelo…';certificateDownload.disabled=true;certificateBase=null;
+async function loadFixedCertificate(){
+  certificateStatus.textContent='Carregando o modelo fixo…';certificateDownload.disabled=true;certificateBase=null;
   try{
-    if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
-      const pdfjsLib=window.pdfjsLib||await window.pdfjsReady;
-      if(!pdfjsLib)throw new Error('A visualização de PDF não carregou. Recarregue a página e tente novamente.');
-      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
-      const page=await pdf.getPage(1);const baseViewport=page.getViewport({scale:1});
-      const scale=Math.min(2.5,2400/baseViewport.width,2400/baseViewport.height);
-      const viewport=page.getViewport({scale});
-      const base=document.createElement('canvas');base.width=Math.ceil(viewport.width);base.height=Math.ceil(viewport.height);
-      await page.render({canvasContext:base.getContext('2d'),viewport}).promise;
-      setCertificateBase(base.width,base.height,baseViewport.width*25.4/72,baseViewport.height*25.4/72);
-      certificateBase.getContext('2d').drawImage(base,0,0);
-      drawCertificate();certificateStatus.textContent='Modelo PDF carregado. A primeira página será usada.';
-    }else if(file.type==='image/jpeg'||file.type==='image/png'||/\.(jpe?g|png)$/i.test(file.name)){
-      const bitmap=await createImageBitmap(file);
-      const maxSide=3000,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));
-      const width=Math.max(1,Math.round(bitmap.width*scale)),height=Math.max(1,Math.round(bitmap.height*scale));
-      setCertificateBase(width,height,297*width/Math.max(width,height),297*height/Math.max(width,height));
-      certificateBase.getContext('2d').drawImage(bitmap,0,0,width,height);bitmap.close();drawCertificate();
-      certificateStatus.textContent='Modelo de imagem carregado.';
-    }else{
-      throw new Error('Formato não reconhecido. Use PDF, JPG ou PNG.');
-    }
+    const pdfjsLib=window.pdfjsLib||await window.pdfjsReady;
+    if(!pdfjsLib)throw new Error('A visualização do PDF não carregou. Recarregue a página e tente novamente.');
+    const pdf=await pdfjsLib.getDocument('modelo-certificado.pdf').promise;
+    const page=await pdf.getPage(1);const baseViewport=page.getViewport({scale:1});
+    const scale=Math.min(2.5,2400/baseViewport.width,2400/baseViewport.height);
+    const viewport=page.getViewport({scale});
+    const base=document.createElement('canvas');base.width=Math.ceil(viewport.width);base.height=Math.ceil(viewport.height);
+    await page.render({canvasContext:base.getContext('2d'),viewport}).promise;
+    setCertificateBase(base.width,base.height,baseViewport.width*25.4/72,baseViewport.height*25.4/72);
+    certificateBase.getContext('2d').drawImage(base,0,0);drawCertificate();
+    certificateStatus.textContent='Modelo carregado.';
   }catch(error){
     certificateBase=null;certificateCanvas.hidden=true;$('certificateEmpty').hidden=false;
-    certificateEmptyText('Não foi possível abrir o modelo. Confira o arquivo e tente novamente.');
+    certificateEmptyText('O modelo fixo não pôde ser carregado. Confira se o PDF está publicado no GitHub.');
     certificateStatus.textContent=error.message||'Falha ao carregar o modelo.';
   }
-});
+}
+loadFixedCertificate();
 function certificateEmptyText(message){$('certificateEmpty').textContent=message}
 $('certificateName').addEventListener('input',drawCertificate);
 $('certificateCountry').addEventListener('change',drawCertificate);
