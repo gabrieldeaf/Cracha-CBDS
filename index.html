@@ -58,8 +58,12 @@
 <div id="printRoot"><article class="badge"><div class="badge-head"><img class="emblem" src="emblema-campeonato.png" alt=""></div><div class="badge-body"><img class="photo" id="photoPrint" alt=""><div class="details"><div class="name" id="namePrint"></div><div class="category" id="categoryPrint"></div><div class="country"><span class="flag" id="flagPrint"></span><span id="countryPrint"></span></div></div></div><div class="event-info"><div class="event-date">26 A 29 DE NOVEMBRO DE 2026</div><div class="event-place">BELO HORIZONTE / MG</div><img class="sponsors" src="logos-realizacao-organizacao-apoio.png" alt="Realização, organização e apoio"></div><div class="footer"></div></article></div>
 <script src="https://unpkg.com/jspdf@4.2.1/dist/jspdf.umd.min.js"></script>
 <script type="module">
-import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.min.mjs";
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.worker.min.mjs";
+window.pdfjsReady=import("https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.min.mjs").then(library=>{
+  library.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@6.5.438/build/pdf.worker.min.mjs";
+  window.pdfjsLib=library;return library;
+}).catch(error=>{window.pdfjsError=error;return null});
+</script>
+<script>
 const $=id=>document.getElementById(id);let photoUrl='';const emptyPhoto='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="320" height="420" viewBox="0 0 320 420"%3E%3Crect width="320" height="420" fill="%23eaf0f5"/%3E%3Ccircle cx="160" cy="135" r="60" fill="%23b7c4d1"/%3E%3Cpath d="M45 390c12-92 58-138 115-138s103 46 115 138" fill="%23b7c4d1"/%3E%3C/svg%3E';
 const countries={br:{name:'Brasil',flag:'🇧🇷'},ec:{name:'Equador',flag:'🇪🇨'},pe:{name:'Peru',flag:'🇵🇪'},py:{name:'Paraguai',flag:'🇵🇾'}};
 function update(){const name=$('personName').value.trim()||'Nome do participante',cat=$('category').value,c=countries[$('country').value];$('namePreview').textContent=name;$('categoryPreview').textContent=cat;$('countryPreview').textContent=c.name;$('flagPreview').textContent=c.flag;$('photoPreview').src=photoUrl||emptyPhoto;$('namePrint').textContent=name;$('categoryPrint').textContent=cat;$('countryPrint').textContent=c.name;$('flagPrint').textContent=c.flag;$('photoPrint').src=photoUrl||emptyPhoto;}
@@ -120,7 +124,7 @@ function drawCertificate(){
   drawRichParagraph(context,[
     {text:'en calidad de representante de'},
     {text:country,bold:true},
-    {text:'por su valiosa participación en el evento «Campeonato Sudamericano de Bádminton para Sordos 2026», celebrado del 26 al 29 de noviembre de 2026 en la ciudad de Belo Horizonte, estado de Minas Gerais (Brasil).'}
+    {text:', por su valiosa participación en el evento «Campeonato Sudamericano de Bádminton para Sordos 2026», celebrado del 26 al 29 de noviembre de 2026 en la ciudad de Belo Horizonte, estado de Minas Gerais (Brasil).'}
   ],w*.84,cx,paragraphStart,h*.021,h*.029);
   drawFitText(context,'Belo Horizonte (Brasil), 29 de noviembre de 2026',cx,h*.68,w*.86,h*.022,false);
   const sigY=h*.835;
@@ -146,6 +150,8 @@ certificateInput.addEventListener('change',async event=>{
   certificateStatus.textContent='Carregando modelo…';certificateDownload.disabled=true;certificateBase=null;
   try{
     if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){
+      const pdfjsLib=window.pdfjsLib||await window.pdfjsReady;
+      if(!pdfjsLib)throw new Error('A visualização de PDF não carregou. Recarregue a página e tente novamente.');
       const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
       const page=await pdf.getPage(1);const baseViewport=page.getViewport({scale:1});
       const scale=Math.min(2.5,2400/baseViewport.width,2400/baseViewport.height);
